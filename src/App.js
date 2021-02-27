@@ -3,17 +3,45 @@ import React from "react";
 
 class App extends React.Component {
   state = {
-    search: "Narek",
-    cats: ["Marvin", "Darvin", "Harry Potter"],
+    search: "",
+    cats: [
+     {
+        name: "Marvin",
+        email: "marvin@mail.com",
+      }, 
+      {
+        name: "Darvin",
+        email: "darvin@mail.com",
+      },
+      {
+        name: "Harry Potter",
+        email: "harry@mail.com",
+      },
+      {
+        name: "Kitty",
+        email: "kitty@mail.com",
+      }, 
+      {
+        name: "Petya",
+        email: "petya@mail.com",
+      }, 
+    ]
   };
 
   handleChange = (event) => {
-    const value = event.target.value;
-    this.setState({ search: value });
+    //INPUTVALUE
+    const searchValue = event.target.value;
+    //SET INPUT VALUE TO STATE
+    this.setState({ search: searchValue });
   };
 
   render() {
-    console.log(this.state.cats);
+    const mySearchInputValue = this.state.search;
+    const filteredCatsData = this.state.cats.filter((cat) => {
+      const catLowerCaseName = cat.name.toLowerCase();
+        return cat.name.includes(mySearchInputValue);
+    });
+    console.log(filteredCatsData);
     return (
       <div className="app">
         <h1 className="app__header">Catty shop</h1>
@@ -21,6 +49,7 @@ class App extends React.Component {
         <div className="app__search">
           <input
             onChange={(event) => this.handleChange(event)}
+            value={this.state.search}
             className="app__search-input"
             type="text"
             name="search"
@@ -29,10 +58,16 @@ class App extends React.Component {
         </div>
 
         <main className="app__main">
-          <ul>
-            {this.state.cats.map((cat) => {
+          <ul className = "app__main-list">
+            {this.state.cats.map((cat, idx) => {
               console.log(cat);
-              return <li>{cat}</li>;
+              return (
+                <li className="item">
+                  <img src={`https://robohash.org/DQ1.png${idx + 1}?set=set4`} alt="cat" className="item__image"/>
+                  <div className="item__header">{cat.name}</div>
+                  <div>{cat.email}</div>
+                </li>
+              );
             })}
           </ul>
         </main>
