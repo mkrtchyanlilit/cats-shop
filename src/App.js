@@ -1,47 +1,58 @@
-import "./app.scss";
 import React from "react";
+
+// COMPONENTS
+import CardItem from "./components/card-item/CardItem.component";
+
+// STYLES
+import "./app.scss";
 
 class App extends React.Component {
   state = {
     search: "",
     cats: [
-     {
+      {
         name: "Marvin",
         email: "marvin@mail.com",
-      }, 
+        // url: "https://robohash.org/1?set=set4&size=180x180",
+      },
       {
         name: "Darvin",
         email: "darvin@mail.com",
+        // url: "https://robohash.org/2?set=set4&size=180x180",
       },
       {
         name: "Harry Potter",
         email: "harry@mail.com",
+        // url: "https://robohash.org/3?set=set4&size=180x180",
       },
       {
         name: "Kitty",
-        email: "kitty@mail.com",
-      }, 
+        email: "harry@mail.com",
+        // url: "https://robohash.org/3?set=set4&size=180x180",
+      },
       {
         name: "Petya",
-        email: "petya@mail.com",
-      }, 
-    ]
+        email: "harry@mail.com",
+        // url: "https://robohash.org/3?set=set4&size=180x180",
+      },
+    ],
   };
 
   handleChange = (event) => {
-    //INPUTVALUE
+    //? INPUTVALUE
     const searchValue = event.target.value;
-    //SET INPUT VALUE TO STATE
+
+    //? SET INPUT VALUE TO STATE
     this.setState({ search: searchValue });
   };
 
   render() {
-    const mySearchInputValue = this.state.search;
+    const mySearchInputValue = this.state.search.toLowerCase();
     const filteredCatsData = this.state.cats.filter((cat) => {
       const catLowerCaseName = cat.name.toLowerCase();
-        return cat.name.includes(mySearchInputValue);
+      return catLowerCaseName.includes(mySearchInputValue);
     });
-    console.log(filteredCatsData);
+
     return (
       <div className="app">
         <h1 className="app__header">Catty shop</h1>
@@ -58,16 +69,9 @@ class App extends React.Component {
         </div>
 
         <main className="app__main">
-          <ul className = "app__main-list">
-            {this.state.cats.map((cat, idx) => {
-              console.log(cat);
-              return (
-                <li className="item">
-                  <img src={`https://robohash.org/DQ1.png${idx + 1}?set=set4`} alt="cat" className="item__image"/>
-                  <div className="item__header">{cat.name}</div>
-                  <div>{cat.email}</div>
-                </li>
-              );
+          <ul className="app__main-list">
+            {filteredCatsData.map((cat, idx) => {
+              return <CardItem key={idx} cat={cat} idx={idx} />;
             })}
           </ul>
         </main>
